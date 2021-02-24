@@ -2,8 +2,8 @@ import express from 'express';
 
 const app = express();
 
-app.get('/users', (req,res) => {
-    
+app.get('/', (req,res) => {
+    return res.json({message: "Passando um JSON"})
 })
 
 const PORT = '8081'
