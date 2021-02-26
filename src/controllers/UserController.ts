@@ -1,13 +1,13 @@
-import {Request , Response} from 'express';
-import { getRepository } from 'typeorm';
-import { User } from '../models/User';
+import { Request, Response } from 'express';
+import { getCustomRepository } from 'typeorm';
+import { UsersRepository } from '../repositories/UsersRepository';
 
 class UserController {
     async create(request:Request, response:Response) {
         const {name, email} = request.body
         
         // Para cada operação que será realizada no banco, usa o getRepository, para criar um repositorio da minha entidade passada como parâmetro
-        const usersRepository = getRepository(User)
+        const usersRepository = getCustomRepository(UsersRepository) // pegando nosno repository da camdada repository
 
         const userAlereadyExists = await usersRepository.findOne({
             email
@@ -32,4 +32,4 @@ class UserController {
     }
 }
 
-export {UserController}
+export { UserController };
