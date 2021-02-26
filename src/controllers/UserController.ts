@@ -7,7 +7,7 @@ class UserController {
         const {name, email} = request.body
         
         // Para cada operação que será realizada no banco, usa o getRepository, para criar um repositorio da minha entidade passada como parâmetro
-        const usersRepository = getRepository(User)
+        const usersRepository = await getRepository(User)
 
         const userAlereadyExists = await usersRepository.findOne({
             email
