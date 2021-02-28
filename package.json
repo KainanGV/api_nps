@@ -20,6 +20,7 @@
   "homepage": "https://github.com/KainanGV/api_nps#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "nodemailer": "^6.5.0",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.2",
     "tsc-init": "^2.1.0",
