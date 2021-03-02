@@ -1,9 +1,11 @@
-import {Request, Response} from 'express'
+import {Request, Response} from 'express';
+import {resolve} from 'path';
 import { getCustomRepository } from 'typeorm';
 import { SurveysRepository } from '../repositories/SurveysRepository';
 import { SurveysUsersRepository } from '../repositories/SurveysUsersRepository';
 import { UsersRepository } from '../repositories/UsersRepository';
 import SendMailService from '../services/SendMailService';
+
 
 class SendMailController {
     async execute(request: Request, response:Response) {
@@ -38,9 +40,17 @@ class SendMailController {
             survey_id: survey_id
         })
 
-        await surveysUsersRepository.save(surveyUser)
+        await surveysUsersRepository.save(surveyUser);
 
-        await SendMailService.execute(email, surveysAlreadyExists.title, surveysAlreadyExists.description)
+        const npsPath = resolve(__dirname, "..", "views", "emails", "npsMail.hbs");
+
+        const variables = {
+            name: userAlreadyExists.name,
+            title: surveysAlreadyExists.title,
+            description: surveysAlreadyExists.description
+        }
+
+        await SendMailService.execute(email, surveysAlreadyExists.title, variables, npsPath)
         
         return response.json(surveyUser)
 
