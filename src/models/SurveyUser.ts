@@ -11,6 +11,7 @@ class SurveyUser {
     @Column()
     user_id: string;
 
+    //Faz referência ao relacionamento envolvido entre as tabelas, assim retornando um inner join
     @ManyToOne(() => User)
     @JoinColumn({name: "user_id"})
     user:User;

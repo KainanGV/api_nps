@@ -35,22 +35,28 @@ class SendMailController {
             })
         }
 
+        
+        // Definição do caminho por meio do path do nosso template personalizado
+        const npsPath = resolve(__dirname, "..", "views", "emails", "npsMail.hbs");
+
+        //Após setar nosso relacionamento utilizando a claúsula relations ele retorn o user_id e o survey_id semelhante ao inner join
+        const surveyUserAlreadyExists = await surveysUsersRepository.findOne({
+            where: {user_id: userAlreadyExists.id, value: null},
+            relations: ["user", "survey"]
+        })
+
         const variables = {
             name: userAlreadyExists.name,
             title: surveysAlreadyExists.title,
             description: surveysAlreadyExists.description,
-            user_id: userAlreadyExists.id,
+            id: "",
             link: process.env.URL_MAIL
         }
 
-        const npsPath = resolve(__dirname, "..", "views", "emails", "npsMail.hbs");
 
-        const surveyUserAlreadyExists = await surveysUsersRepository.findOne({
-            where: [{user_id: userAlreadyExists.id}, {value: null}],
-            relations: ["user", "survey"]
-        })
-
+        // Verificação para a table surveyUser 
         if(surveyUserAlreadyExists) {
+            variables.id = surveyUserAlreadyExists.id
             SendMailService.execute(email, surveysAlreadyExists.title, variables, npsPath)
             return response.json(surveyUserAlreadyExists)
         }
@@ -62,9 +68,7 @@ class SendMailController {
 
         await surveysUsersRepository.save(surveyUser);
 
-        
-
-        
+        variables.id = surveyUser.id
 
         await SendMailService.execute(email, surveysAlreadyExists.title, variables, npsPath)
         
