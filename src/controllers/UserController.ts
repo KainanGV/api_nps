@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import { UsersRepository } from '../repositories/UsersRepository';
 import * as yup from 'yup';
+import { AppError } from '../errors/AppError';
 
 class UserController {
     async create(request:Request, response:Response) {
@@ -29,9 +30,7 @@ class UserController {
         })
 
         if(userAlereadyExists) {
-            return response.status(400).json({
-                error: "User already exists"
-            })
+            throw new AppError("User already exists")
         }
 
         // Este retorna uma promises de user, com isso já consigo dar um save no db
