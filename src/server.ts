@@ -22,8 +22,6 @@ app.use((err: Error, request: Request, response: Response, _next: NextFunction) 
     })
 })
 
-const PORT = '8083'
-app.listen(PORT, () => {
-    console.log("SERVER ROLANDO")
-})
+
+app.listen(process.env.PORT || 3000)
 
