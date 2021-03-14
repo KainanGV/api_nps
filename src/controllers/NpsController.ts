@@ -14,6 +14,9 @@ class NpsController {
             value: Not(IsNull())
         })
 
+        // filter utilizo para fazer operações entre os elementos de um array, uma lista
+        
+
         // Calculate NPS
         const detractor = surveysUsers.filter((survey) => survey.value >= 0 && survey.value <= 6)
 
